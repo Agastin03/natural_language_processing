@@ -118,6 +118,9 @@ OUTPUT:-
 cosine similarity: 0.34464214103805474 
 
 
+
+
+
 #2-advanced similarity using jaccard distance 
 text1="Data science involues statistics and programming" 
 text2="programming in python is essential for data science" 
@@ -171,6 +174,8 @@ OUTPUT:-
 bigrams: [('NLP', 'is'), ('is', 'amazing'), ('amazing', '.')] 
 
 
+
+
 #2- advance Ngram generation 
 from nltk.util import ngrams  
 text = "NLP makes machines understand language."  
@@ -180,3 +185,131 @@ print("Trigrams:", trigrams_list)
 OUTPUT:- 
 Trigrams: [('NLP', 'makes', 'machines'), ('makes', 'machines', 'understand'), ('machines', 
 'understand', 'language'), ('understand', 'language', '.')]
+
+
+
+
+
+
+
+Week 6 Text Classification  
+Program 6.1: Simple Text Classification  
+Code:- 
+from textblob import TextBlob 
+text="I love studying natural language processing!" 
+blob=TextBlob(text) 
+print("sentiment polarity:",blob.sentiment.polarity) 
+output:- 
+sentiment polarity: 0.3125 
+
+
+
+
+
+
+
+
+Program 6.2: Advanced Text Classification with Logistic Regression  
+Code:- 
+from sklearn.feature_extraction.text import TfidfVectorizer 
+from sklearn.linear_model import LogisticRegression 
+texts=["I love this movie","I hate this film"] 
+labels=[1,0] 
+vectorizer=TfidfVectorizer() 
+x=vectorizer.fit_transform(texts) 
+model=LogisticRegression() 
+model.fit(x,labels) 
+test=vectorizer.transform(["I love this movie"]) 
+prediction=model.predict(test) 
+print("prediction:",prediction[0]) 
+output:- 
+prediction: 1 
+
+
+
+
+
+
+Week 8 Context Free Grammars (CFG)  
+Program 8.1: Simple CFG Parsing  
+Code:- 
+import nltk 
+grammar=nltk.CFG.fromstring(""" 
+S -> NP VP 
+NP -> Det N 
+VP -> V NP 
+Det -> 'the' 
+N -> 'dog' | 'cat' 
+V -> 'chased' | 'saw' 
+""") 
+parser=nltk.ChartParser(grammar) 
+sentence=('the', 'dog', 'chased', 'the', 'cat') 
+for tree in parser.parse(sentence): 
+print(tree) 
+Output:- 
+(S (NP (Det the) (N dog)) (VP (V chased) (NP (Det the) (N cat)))) 
+
+
+
+
+
+
+Program 8.2: Advanced CFG with Ambiguity Resolution 
+Code:- 
+grammar=nltk.CFG.fromstring(""" 
+S -> NP VP 
+NP -> Det N | N 
+VP -> V NP 
+Det -> 'the' 
+N -> 'dog' | 'cat' 
+V -> 'chased' 
+""") 
+parser=nltk.ChartParser(grammar) 
+sentence=('the', 'cat', 'chased','dog') 
+for tree in parser.parse(sentence): 
+print(tree) 
+Output:- 
+(S (NP (Det the) (N cat)) (VP (V chased) (NP (N dog))))
+
+
+
+
+
+
+
+
+
+Week 10 Word Sense Disambiguation (WSD)  
+Program 10.1: Simple WSD using Lesk Algorithm  
+Code:- 
+from nltk.wsd import lesk  
+from nltk.tokenize import word_tokenize  
+sentence = "I went to the bank to deposit money."  
+tokens = word_tokenize(sentence)  
+sense = lesk(tokens, 'bank')  
+print("Sense:", sense)  
+print("Definition:", sense.definition()) 
+Output:- 
+Sense: Synset('savings_bank.n.02') 
+Definition: a container (usually with a slot in the top) for keeping money at home 
+
+
+
+
+Program 10.2: Advanced WSD with Multiple Words 
+Code:- 
+sentences = ["The crane is flying.", "He used a crane to lift the load."]  
+for sent in sentences:  
+tokens = word_tokenize(sent)  
+sense = lesk(tokens, 'crane')  
+print("Sentence:", sent)  
+print("Sense:", sense)  
+print("Definition:", sense.definition()) 
+Output:- 
+Sentence: The crane is flying. 
+Sense: Synset('crane.n.04') 
+Definition: lifts and moves heavy objects; lifting tackle is suspended from a pivoted boom that 
+rotates around a vertical axis 
+Sentence: He used a crane to lift the load. 
+Sense: Synset('grus.n.01') 
+Definition: a small constellation in the southern hemisphere near Phoenix
